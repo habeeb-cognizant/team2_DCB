@@ -1,68 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Status Tracking - GrievanceConnect</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"  rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Status - GrievanceConnect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/style.css" rel="stylesheet">
 </head>
-<style>
-    body {
-  margin: 0;
-  min-height: 100vh;
- background: url('../images/gradient2.svg') no-repeat center center fixed;  
-  background-size: cover;
-  position: relative;
-}
+<body>
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.7); /* Light overlay */
-  z-index: 0;
-}
+    <header class="site-header">
+        <!-- <nav class="navbar navbar-expand-lg navbar-dark"><div class="container"><a class="navbar-brand d-flex align-items-center" href="index.html"><img src="images/1000252755.jpg" alt="GrievanceConnect Logo" width="40" height="40" class="rounded-circle me-2"><span>GrievanceConnect</span></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"><li class="nav-item"><a class="nav-link" href="index.html">Home</a></li><li class="nav-item"><a class="nav-link" href="login.html">Login</a></li><li class="nav-item"><a class="nav-link" href="complaint-form.html">Submit</a></li><li class="nav-item"><a class="nav-link active" href="status-tracking.html">Track</a></li><li class="nav-item"><a class="nav-link" href="admin-dashboard.html">Admin</a></li><li class="nav-item d-none" id="logout-link"><a class="nav-link" href="#" id="logout">Logout</a></li></ul></div></div></nav> -->
+         <nav class="navbar navbar-expand-lg navbar-dark"><div class="container"><a class="navbar-brand d-flex align-items-center" href="index.html"><img src="images/1000252755.jpg" alt="GrievanceConnect Logo" width="40" height="40" class="rounded-circle me-2"><span>GrievanceConnect</span></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"><li class="nav-item"><a class="nav-link" href="index.html">Home</a></li><li class="nav-item"><a class="nav-link" href="login.html">Login</a></li><li class="nav-item"><a class="nav-link" href="complaint-form.html">Submit</a></li><li class="nav-item"><a class="nav-link active" href="status-tracking.html">Track</a></li><li class="nav-item"><a class="nav-link" href="admin-login.html">Admin</a></li><li class="nav-item d-none" id="logout-link"><a class="nav-link" href="#" id="logout">Logout</a></li></ul></div></div></nav>
+    </header>
 
-.content {
-  position: relative;
-  z-index: 1;
-}
-</style>
-<body class="bg-light">
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-info">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">GrievanceConnect</a>
-    </div>
-  </nav>
-
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow-sm">
-          <div class="card-header bg-info text-white text-center">
-            <h4>Track Your Complaint</h4>
-          </div>
-          <div class="card-body">
-            <form id="statusForm">
-              <div class="mb-3">
-                <label for="complaintId" class="form-label">Enter Complaint ID or Email</label>
-                <input type="text" class="form-control" id="complaintId" required>
-              </div>
-              <button type="submit" class="btn btn-info w-100">Check Status</button>
-            </form>
-            <div id="statusResult" class="mt-4 text-center"></div>
-          </div>
+    <main class="page-wrapper">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="content-panel">
+                        <h2 class="text-center page-title">Track Complaint Status</h2>
+                        <form id="statusForm" novalidate>
+                            <div class="mb-3">
+                                <label for="complaintId" class="form-label">Enter your Complaint ID or Email</label>
+                                <input type="text" class="form-control" id="complaintId" placeholder="e.g., 12345 or user@example.com" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-info btn-lg">Check Status</button>
+                            </div>
+                        </form>
+                        <div id="statusResult" class="mt-4"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
+    </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="scripts/app.js"></script>
+    <footer class="site-footer">
+        <p>&copy; 2024 GrievanceConnect</p>
+    </footer>
+
+    <div class="toast-container"></div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="scripts/app.js"></script>
 </body>
 </html>
