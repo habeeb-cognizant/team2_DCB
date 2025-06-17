@@ -50,14 +50,17 @@ $('#loginForm').on('submit', function (e) {
 
   const $btn = $(this).find('button[type="submit"]');
   $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Logging in...');
-
+  
   setTimeout(() => {
-    // Store login email in sessionStorage to use in complaint-form
-    sessionStorage.setItem('loggedInEmail', email);
-    window.location.href = "complaint-form.html";
+    if (email === 'admin@gmail.com' && password === 'Admin123') {
+      window.location.href = "admin-dashboard.html";
+    } else {
+      // Store login email in sessionStorage to use in complaint-form
+      sessionStorage.setItem('loggedInEmail', email);
+      window.location.href = "complaint-form.html";
+    }
   }, 800);
 });
-
 // COMPLAINT FORM
 $('#complaintForm').on('submit', function (e) {
   e.preventDefault();
@@ -79,8 +82,6 @@ $('#complaintForm').on('submit', function (e) {
   }
 
   if (!valid) return;
-
-  // Save complaint to localStorage
   const complaint = {
     email,
     category,
@@ -119,3 +120,4 @@ $('#statusForm').on('submit', function (e) {
 
   $('#statusResult').html(`<p>${result}</p>`);
 });
+1
