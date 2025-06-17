@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - GrievanceConnect</title>
+  <!-- Bootstrap 5 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"  rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .card-header {
+      font-weight: bold;
+    }
+    body {
+  margin: 0;
+  min-height: 100vh;
+  background: url('../images/N03cZtZYOx.gif') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.7); /* Light overlay */
+  z-index: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">GrievanceConnect</a>
+    </div>
+  </nav>
+
+  <!-- Admin Dashboard Content -->
+  <div class="container mt-5">
+    <div class="row">
+      <!-- Complaint Management Card -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-dark text-white">
+            <h4>Complaint Management</h4>
+          </div>
+          <div class="card-body">
+            <p class="card-text">Manage complaints, assign tasks, and update statuses.</p>
+            <!-- Example Table -->
+            <table class="table table-bordered table-striped table-hover">
+              <thead class="table-dark">
+                <tr>
+                  <th>#</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Service Issue</td>
+                  <td><span class="badge bg-warning text-dark">Pending</span></td>
+                  <td><button class="btn btn-sm btn-primary">View</button></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Billing Issue</td>
+                  <td><span class="badge bg-success">Resolved</span></td>
+                  <td><button class="btn btn-sm btn-primary">View</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance Analytics Card -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-dark text-white">
+            <h4>Performance Analytics</h4>
+          </div>
+          <div class="card-body">
+            <p class="card-text">Track performance metrics and generate reports.</p>
+            <!-- Placeholder for chart -->
+            <canvas id="performanceChart" height="150"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle (with Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
+
+  <!-- Chart.js CDN (for demo chart) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+
+  <!-- Example Chart Script -->
+  <script>
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Resolved', 'Pending', 'In Progress'],
+        datasets: [{
+          label: 'Complaints',
+          data: [12, 5, 7],
+          backgroundColor: [
+            'rgba(40, 167, 69, 0.6)', // Resolved
+            'rgba(255, 193, 7, 0.6)', // Pending
+            'rgba(0, 123, 255, 0.6)'  // In Progress
+          ],
+          borderColor: [
+            'rgba(40, 167, 69, 1)',
+            'rgba(255, 193, 7, 1)',
+            'rgba(0, 123, 255, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'Complaint Status Overview'
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

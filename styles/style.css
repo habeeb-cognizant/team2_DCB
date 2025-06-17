@@ -1,0 +1,94 @@
+/* Card Animation */
+.card {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Delay multiple cards */
+.card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+/* Badge Styling */
+.badge {
+  font-size: 1rem;
+  padding: 0.5em 0.75em;
+}
+
+/* Button Hover Effects */
+.btn-primary,
+.btn-success,
+.btn-info {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover,
+.btn-success:hover,
+.btn-info:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #333;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 5px;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  z-index: 9999;
+  transition: all 0.4s ease;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes colorCycle {
+  0%   { background-color: #0d6efd; } /* Bootstrap primary */
+  33%  { background-color: #198754; } /* Success */
+  66%  { background-color: #ffc107; } /* Warning */
+  100% { background-color: #dc3545; } /* Danger */
+}
+
+#gradientNav {
+  animation: colorCycle 12s linear infinite;
+  transition: background-color 1s ease-in-out;
+}
+
+/* Fade-In Animation */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optional: Add a loading spinner or fade-in screen */
+.page-enter {
+  animation: fadeOverlay 0.5s ease-in-out;
+}
+
+@keyframes fadeOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.error-msg {
+  margin-top: 4px;
+  font-size: 0.875rem;
+  color: red;
+}
