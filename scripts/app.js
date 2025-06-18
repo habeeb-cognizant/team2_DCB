@@ -3,8 +3,8 @@ $(document).ready(function () {
 
     // --- Configuration & Global State ---
     const ADMIN_CREDENTIALS = {
-        email: 'admin@grievance.com',
-        password: 'AdminPass123'
+        email: 'admin_email_goes_here',
+        password: 'admin_password'
     };
 
     const AppState = {
