@@ -3,8 +3,9 @@ $(document).ready(function () {
 
     // --- Configuration & Global State ---
     const ADMIN_CREDENTIALS = {
-        email: 'admin_email_goes_here',
-        password: 'admin_password'
+        // email: 'admin_email_goes_here',
+        // password: 'admin_password'
+        // Admin credentials will go here (for the current version before we connect the required database)
     };
 
     const AppState = {
