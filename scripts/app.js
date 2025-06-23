@@ -3,8 +3,7 @@ $(document).ready(function () {
 
     // --- Configuration & Global State ---
     const ADMIN_CREDENTIALS = {
-        email: 'admin@grievance.com',
-        password: 'AdminPass123'
+        // Admin credentials to be imported here
     };
 
     const AppState = {
