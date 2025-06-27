@@ -78,64 +78,62 @@ SELECT 'RESPONSE_LOGS', count(*) from response_logs;
 
 -- TEST CASES
 
+-- Show all departments
+SELECT * FROM departments ORDER BY department_id;
+-- Show all users
+SELECT * FROM users ORDER BY user_id;
+-- Show all complaints
+SELECT * FROM complaints ORDER BY complaint_id;
+-- Show all escalations
+SELECT * FROM escalations ORDER BY escalation_id;
+-- Show all responses
+SELECT * FROM response_logs ORDER BY log_id;
+
 -- Test Case 1: Verify CREATE with JOIN
 INSERT INTO complaints (complaint_id, title, description, submitted_by, department_id, status, priority_level)
 VALUES (complaint_seq.NEXTVAL, 'Cannot Upload Profile Picture', 'The upload button gives a 500 server error when I try to upload a new profile picture.', 2, 1, 'Pending', 'Medium');
 COMMIT;
-
 -- Step 2: Verify creation by joining tables to see full details.
 SELECT c.complaint_id, c.title, u.full_name AS submitted_by_user, d.department_name AS assigned_department
 FROM complaints c JOIN users u ON c.submitted_by = u.user_id JOIN departments d ON c.department_id = d.department_id
 WHERE c.title = 'Cannot Upload Profile Picture';
 
-
 -- Test Case 2: Verify UPDATE and Response Logging
 SELECT * FROM complaints WHERE complaint_id = 2;
 SELECT * FROM response_logs WHERE complaint_id = 2;
-
 -- Step 2: Simulate the backend resolving the complaint.
 UPDATE complaints SET status = 'Resolved', resolution_date = SYSDATE WHERE complaint_id = 2;
 INSERT INTO response_logs (log_id, complaint_id, responded_by, response_text) VALUES (resp_seq.NEXTVAL, 2, 4, 'The billing error has been corrected and a refund has been issued.');
 COMMIT;
-
 -- Step 3: Verify the "after" state.
 SELECT status, resolution_date FROM complaints WHERE complaint_id = 2;
 SELECT count(*) as response_count FROM response_logs WHERE complaint_id = 2;
 
-
 -- Test Case 3: Verify Complaint Escalation
 SELECT complaint_id, status, department_id FROM complaints WHERE complaint_id = 1;
-
 -- Step 2: Simulate escalating the complaint to the Billing department.
 INSERT INTO escalations (escalation_id, complaint_id, from_department_id, to_department_id, escalated_by, escalation_reason) VALUES (esc_seq.NEXTVAL, 1, 1, 2, 3, 'User confirmed issue is related to payment method, not a technical bug.');
 UPDATE complaints SET department_id = 2, status = 'Escalated', escalated = 'Yes' WHERE complaint_id = 1;
 COMMIT;
-
 -- Step 3: Verify the complaint was successfully escalated.
 SELECT status, department_id, escalated FROM complaints WHERE complaint_id = 1;
 SELECT from_department_id, to_department_id, escalation_reason FROM escalations WHERE complaint_id = 1;
 
-
 -- Test Case 4: Verify DELETE and check for "Orphaned Records"
 SELECT * FROM complaints WHERE complaint_id = 3;
 SELECT * FROM escalations WHERE complaint_id = 3;
-
 -- Step 2: Simulate deleting the related records and then the main complaint.
 DELETE FROM escalations WHERE complaint_id = 3;
 DELETE FROM complaints WHERE complaint_id = 3;
 COMMIT;
-
 -- Step 3: Verify both records are now gone.
 SELECT * FROM complaints WHERE complaint_id = 3;
 SELECT * FROM escalations WHERE complaint_id = 3;
 
-
 -- Test Case 5: Negative Test (Unique Email Constraint)
 SELECT * FROM users WHERE email = 'john.doe@example.com';
-
 -- Step 2: Attempt to create a NEW user with the SAME email. This should FAIL.
 INSERT INTO users (user_id, full_name, email, password, phone_number, role, department)
 VALUES (user_seq.NEXTVAL, 'Another John', 'john.doe@example.com', 'newpass', '555-9999', 'User', 'Marketing');
-
 -- Step 3: The test PASSES if Step 2 produced a unique constraint error.
 SELECT count(*) FROM users;
