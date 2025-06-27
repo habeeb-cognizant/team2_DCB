@@ -1,9 +1,3 @@
-#!/bin/bash
-
-# =================================================================
-# GrievanceConnect Log Management Script (.sh version for Bash)
-# =================================================================
-
 # --- 1. CONFIGURATION ---
 # Note: In Bash, it's better to use forward slashes for paths.
 # This path should point to the root of your Java project folder.
@@ -13,7 +7,7 @@ LOG_FILE_PATH="$PROJECT_ROOT_PATH/logs/app.log"
 BACKUP_ROOT_PATH="$PROJECT_ROOT_PATH/backup"
 
 # How many days of backups to keep.
-DAYS_TO_KEEP=28
+DAYS_TO_KEEP=365
 
 # --- 2. SCRIPT LOGIC ---
 
