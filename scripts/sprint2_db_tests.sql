@@ -137,3 +137,17 @@ INSERT INTO users (user_id, full_name, email, password, phone_number, role, depa
 VALUES (user_seq.NEXTVAL, 'Another John', 'john.doe@example.com', 'newpass', '555-9999', 'User', 'Marketing');
 -- Step 3: The test PASSES if Step 2 produced a unique constraint error.
 SELECT count(*) FROM users;
+
+-- Test Case 6: Negative Test (NOT NULL Constraint)
+INSERT INTO users (user_id, full_name, email, password, role, department)
+VALUES (user_seq.NEXTVAL, NULL, 'test.null@example.com', 'newpass', 'User', 'Temp');
+
+-- Step 2: This test PASSES if the Step 1 query produced an ORA-01400 error.
+SELECT * FROM users WHERE email = 'test.null@example.com';
+
+-- Test Case 7: Verify DEFAULT Value
+INSERT INTO complaints (complaint_id, title, description, submitted_by, department_id, status, priority_level)
+VALUES (complaint_seq.NEXTVAL, 'Test Default Date', 'This is a test to check the default SYSDATE.', 2, 1, 'Pending', 'Low');
+COMMIT;
+-- Step 2: Verify that the database automatically set the submission_date.
+SELECT submission_date FROM complaints WHERE title = 'Test Default Date';
