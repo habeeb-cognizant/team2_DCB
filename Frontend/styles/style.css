@@ -1,0 +1,260 @@
+/* 1. Global Design System (Variables) */
+:root {
+    --primary-color: #4a90e2;
+    --primary-hover: #357ABD;
+    --success-color: #50e3c2;
+    --success-hover: #38a892;
+    --danger-color: #e9573f;
+    --info-color: #4fc1e9;
+    --dark-color: #343a40;
+    --text-light: #f8f9fa;
+    --text-muted: #adb5bd;
+    --background-gradient: linear-gradient(135deg, #232526 0%, #414345 100%);
+    --glass-background: rgba(255, 255, 255, 0.1);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+    --font-family: 'Poppins', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    --border-radius: 12px;
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --transition-speed: 0.3s;
+}
+
+/* 2. Global Styles & Body */
+body {
+    font-family: var(--font-family);
+    background: var(--background-gradient);
+    background-attachment: fixed;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 3. Reusable Components & Layout */
+.page-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 1rem;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.content-panel {
+    background: var(--glass-background);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: var(--border-radius);
+    border: var(--glass-border);
+    box-shadow: var(--shadow);
+    padding: 2.5rem;
+    color: var(--text-light);
+}
+
+/* 4. Header & Navigation */
+.site-header {
+    background: var(--glass-background);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.navbar-brand img {
+    transition: transform var(--transition-speed) ease;
+}
+
+.navbar-brand:hover img {
+    transform: rotate(360deg);
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color var(--transition-speed) ease;
+    position: relative;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: var(--text-light);
+}
+
+.navbar-nav .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: var(--success-color);
+    border-radius: 50%;
+}
+
+/* 5. Modern Buttons */
+.btn {
+    font-weight: 600;
+    border-radius: 50px;
+    padding: 12px 30px;
+    border: 0;
+    transition: all var(--transition-speed) ease;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+}
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+.btn-success {
+    background-color: var(--success-color);
+    color: var(--dark-color);
+}
+.btn-success:hover {
+    background-color: var(--success-hover);
+    color: var(--dark-color);
+}
+.btn-info {
+    background-color: var(--info-color);
+}
+.btn-info:hover {
+    background-color: #3daed6;
+}
+.btn-danger {
+    background-color: var(--danger-color);
+}
+.btn-danger:hover {
+    background-color: #d44a36;
+}
+.btn-outline-light {
+    border-color: var(--text-light);
+    color: var(--text-light);
+}
+
+/* 6. Modern Forms */
+.form-control, .form-select {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-light);
+    border-radius: 8px;
+    padding: 12px 15px;
+    transition: all var(--transition-speed) ease;
+}
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+.form-control:focus, .form-select:focus {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: var(--text-light);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-color), 0.25);
+}
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+.form-check-label {
+    color: var(--text-muted);
+}
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* 7. Modern Tables (for Admin) */
+.table {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+.table > :not(caption) > * > * {
+    background-color: transparent;
+    color: var(--text-light);
+    border-color: rgba(255, 255, 255, 0.15);
+    vertical-align: middle;
+}
+.table-hover > tbody > tr:hover > * {
+    color: var(--text-light);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+thead th {
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* 8. Specific Page Styles */
+.hero-content {
+    text-align: center;
+    color: var(--text-light);
+}
+.hero-content h1 {
+    font-weight: 700;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+.hero-content .lead {
+    font-weight: 300;
+    max-width: 650px;
+    margin: 1.5rem auto 2.5rem;
+}
+
+/* 9. Utilities & Footer */
+.page-title {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+}
+
+.site-footer {
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding: 1.5rem 0;
+    text-align: center;
+}
+
+/* 10. Modern Toast Notification */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1055;
+}
+.custom-toast {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    color: var(--text-light);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+}
+.custom-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.custom-toast.bg-success { background-color: var(--success-color); color: var(--dark-color); }
+.custom-toast.bg-danger { background-color: var(--danger-color); }
