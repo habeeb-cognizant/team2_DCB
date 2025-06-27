@@ -2,15 +2,19 @@ package com.sprint2.dao;
 
 import com.sprint2.DBConnection;
 import com.sprint2.model.Complaint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ComplaintDAO {
-    // This method now correctly uses complaint_seq and inserts into the right columns
+
+    private static final Logger logger = LoggerFactory.getLogger(ComplaintDAO.class);
+
     public void submitComplaint(Complaint complaint) {
-        String sql = "INSERT INTO complaints (complaint_id, description, status, submitted_by, department_id, priority_level) VALUES (complaint_seq.NEXTVAL, ?, ?, 1, 1, 'Medium')";
+        String sql = "INSERT INTO complaints (description, status) VALUES (?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -19,14 +23,15 @@ public class ComplaintDAO {
             stmt.setString(2, complaint.getStatus());
 
             int rows = stmt.executeUpdate();
-            System.out.println(rows + " row(s) inserted for new complaint.");
-        } catch (SQLException exception) {
-            System.err.println("Error submitting complaint: " + exception.getMessage());
+            logger.info("{} row(s) inserted. Complaint submitted: {}", rows, complaint.getDescription());
+
+        } catch (SQLException e) {
+            logger.error("Error submitting complaint: {}", e.getMessage());
         }
     }
 
     public void updateResponse(int complaintId, String newStatus) {
-        String sql = "UPDATE complaints SET status = ? WHERE complaint_id = ?";
+        String sql = "UPDATE complaints SET status = ? WHERE id = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -35,14 +40,15 @@ public class ComplaintDAO {
             stmt.setInt(2, complaintId);
 
             int rows = stmt.executeUpdate();
-            System.out.println(rows + " row(s) updated by updateResponse.");
-        } catch (SQLException exception) {
-            System.err.println("Error updating complaint: " + exception.getMessage());
+            logger.info("Complaint ID {} updated to status '{}'. Rows affected: {}", complaintId, newStatus, rows);
+
+        } catch (SQLException e) {
+            logger.error("Error updating complaint status: {}", e.getMessage());
         }
     }
 
     public void escalateComplaint(int complaintId) {
-        String sql = "UPDATE complaints SET escalated = 'Yes' WHERE complaint_id = ?";
+        String sql = "UPDATE complaints SET escalated = 'Yes' WHERE id = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -50,9 +56,10 @@ public class ComplaintDAO {
             stmt.setInt(1, complaintId);
 
             int rows = stmt.executeUpdate();
-            System.out.println("Complaint escalated. Rows updated: " + rows);
-        } catch (SQLException exception) {
-            System.err.println("Error escalating complaint: " + exception.getMessage());
+            logger.warn("Complaint ID {} escalated. Rows affected: {}", complaintId, rows);
+
+        } catch (SQLException e) {
+            logger.error("Error escalating complaint: {}", e.getMessage());
         }
     }
 }

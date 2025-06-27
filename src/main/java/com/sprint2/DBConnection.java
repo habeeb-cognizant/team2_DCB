@@ -1,22 +1,36 @@
 package com.sprint2;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    // This URL correctly points to the pluggable database XEPDB1
-    private static final String URL = "jdbc:oracle:thin:@localhost:1521/XEPDB1";
-    
-    // Use the SYSTEM user for this practice project
+
+    private static final Logger logger = LoggerFactory.getLogger(DBConnection.class);
+
+    private static final String URL = "jdbc:oracle:thin:@localhost:1521/XEPDB1"; // Service name format
     private static final String USER = "SYSTEM";
-    
-    // !!! IMPORTANT: Replace this with your actual Oracle password !!!
-    private static final String PASSWORD = "Hussain7684"; 
+    private static final String PASSWORD = "Hussain7684";
 
     public static Connection getConnection() throws SQLException {
-        // This is a modern way to ensure the driver is loaded
-        DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        try {
+            Class.forName("oracle.jdbc.OracleDriver");
+            logger.info("Oracle JDBC Driver loaded successfully.");
+        } catch (ClassNotFoundException e) {
+            logger.error("Oracle JDBC Driver not found.", e);
+            throw new SQLException("Oracle JDBC Driver not found.", e);
+        }
+
+        try {
+            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            logger.info("Database connection established for user '{}'", USER);
+            return conn;
+        } catch (SQLException e) {
+            logger.error("Failed to connect to DB with user '{}': {}", USER, e.getMessage());
+            throw e;
+        }
     }
 }

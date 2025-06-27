@@ -1,40 +1,54 @@
 package com.sprint2;
-
 import com.sprint2.dao.ComplaintDAO;
 import com.sprint2.model.Complaint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class MainApp {
-    public static void main(String[] args) {
-        System.out.println("--- Starting Grievance System JDBC Test ---");
 
-        // 1. Test Database Connection
-        try (Connection conn = DBConnection.getConnection()) {
-            if (conn != null && !conn.isClosed()) {
-                System.out.println("SUCCESS: Connected to Oracle Database successfully!");
-            }
-        } catch (SQLException e) {
-            System.err.println("FATAL ERROR: Could not connect to the database. Check credentials in DBConnection.java.");
-            System.err.println(e.getMessage());
-            return; // Exit if we can't connect
+    private static final Logger logger = LoggerFactory.getLogger(MainApp.class);
+
+    public static void main(String[] args) {
+
+        // Simulated login attempt
+        String username = "admin";
+        String password = "password123"; // In real app, never log raw passwords
+
+        if (authenticate(username, password)) {
+            logger.info("Login successful for user: {}", username);
+        } else {
+            logger.warn("Login failed for user: {}", username);
         }
 
+        // DB connection
+        try (Connection conn = DBConnection.getConnection()) {
+            if (conn != null && !conn.isClosed()) {
+                logger.info("Connected to Oracle Database successfully!");
+            } else {
+                logger.error("Connection to Oracle Database failed.");
+            }
+        } catch (SQLException e) {
+            logger.error("Error connecting to DB: {}", e.getMessage());
+        }
+
+        // Complaint operations
         ComplaintDAO dao = new ComplaintDAO();
 
-        // 2. Simulate creating a new complaint
-        System.out.println("\n--- TEST: Creating a new complaint... ---");
         Complaint c1 = new Complaint("Oracle DB connection timeout during ticket submission", "Open");
         dao.submitComplaint(c1);
+        logger.info("Submitted complaint: {}", c1.getDescription());
 
-        // 3. Simulate updating the status. Let's assume the new complaint got ID=1
-        System.out.println("\n--- TEST: Updating complaint status... ---");
         dao.updateResponse(1, "Assigned to DB Admin");
+        logger.info("Updated response for Complaint ID 1: Assigned to DB Admin");
 
-        // 4. Simulate escalating the complaint
-        System.out.println("\n--- TEST: Escalating complaint... ---");
         dao.escalateComplaint(1);
+        logger.warn("Complaint ID 1 has been escalated.");
+    }
 
-        System.out.println("\n--- JDBC Test Completed ---");
+    private static boolean authenticate(String username, String password) {
+        return "admin".equals(username) && "password123".equals(password);
     }
 }

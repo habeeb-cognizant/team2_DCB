@@ -1,17 +1,4 @@
--- =================================================================
--- SPRINT 2 - COMPREHENSIVE QA TEST SCRIPT (Task 598)
--- =================================================================
--- Part 1: Resets the database and seeds it with rich sample data.
--- Part 2: Contains advanced, step-by-step test cases for QA practice.
--- =================================================================
-
-
--- =================================================================
--- PART 1: FULL DATA SEEDING
--- Run this section once to prepare the database for testing.
--- =================================================================
-
--- Step 1: Clean up all old data and objects for a fresh start.
+-- Inserting Sample Data
 BEGIN
   FOR c IN (SELECT constraint_name, table_name FROM user_constraints WHERE constraint_type = 'R' AND table_name IN ('COMPLAINTS', 'ESCALATIONS', 'RESPONSE_LOGS'))
   LOOP
@@ -43,7 +30,7 @@ BEGIN EXECUTE IMMEDIATE 'DROP SEQUENCE resp_seq'; EXCEPTION WHEN OTHERS THEN IF 
 /
 
 -- Step 2: Re-create all tables, sequences, and constraints.
-CREATE TABLE users (user_id NUMBER PRIMARY KEY, full_name VARCHAR2(100), email VARCHAR2(100) UNIQUE, password VARCHAR2(100), phone_number VARCHAR2(20), role VARCHAR2(20), department VARCHAR2(50));
+CREATE TABLE users (user_id NUMBER PRIMARY KEY NOT NULL, full_name VARCHAR2(100) NOT NULL, email VARCHAR2(100) UNIQUE NOT NULL, password VARCHAR2(100), phone_number VARCHAR2(20), role VARCHAR2(20), department VARCHAR2(50));
 CREATE TABLE departments (department_id NUMBER PRIMARY KEY, department_name VARCHAR2(100) UNIQUE, description VARCHAR2(500));
 CREATE TABLE complaints (complaint_id NUMBER PRIMARY KEY, title VARCHAR2(200), description CLOB, submitted_by NUMBER, department_id NUMBER, status VARCHAR2(30), priority_level VARCHAR2(20), submission_date DATE DEFAULT SYSDATE, resolution_date DATE, escalated VARCHAR2(10));
 CREATE TABLE escalations (escalation_id NUMBER PRIMARY KEY, complaint_id NUMBER, from_department_id NUMBER, to_department_id NUMBER, escalated_by NUMBER, escalation_reason VARCHAR2(500), escalation_date DATE DEFAULT SYSDATE);
@@ -89,14 +76,9 @@ UNION ALL
 SELECT 'RESPONSE_LOGS', count(*) from response_logs;
 
 
--- =================================================================
--- PART 2: ADVANCED TEST CASES
--- Practice by running the steps inside each test case one-by-one.
--- =================================================================
+-- TEST CASES
 
 -- Test Case 1: Verify CREATE with JOIN
--- Goal: Check if a new complaint is created and linked correctly.
--- Step 1: Simulate backend creating a new complaint.
 INSERT INTO complaints (complaint_id, title, description, submitted_by, department_id, status, priority_level)
 VALUES (complaint_seq.NEXTVAL, 'Cannot Upload Profile Picture', 'The upload button gives a 500 server error when I try to upload a new profile picture.', 2, 1, 'Pending', 'Medium');
 COMMIT;
@@ -108,8 +90,6 @@ WHERE c.title = 'Cannot Upload Profile Picture';
 
 
 -- Test Case 2: Verify UPDATE and Response Logging
--- Goal: Check that a complaint's status is updated and a response is logged.
--- Step 1: See the "before" state of complaint #2.
 SELECT * FROM complaints WHERE complaint_id = 2;
 SELECT * FROM response_logs WHERE complaint_id = 2;
 
@@ -124,8 +104,6 @@ SELECT count(*) as response_count FROM response_logs WHERE complaint_id = 2;
 
 
 -- Test Case 3: Verify Complaint Escalation
--- Goal: Check the escalation process logs an event and updates the complaint.
--- Step 1: Check initial state of complaint #1 (belongs to Technical Support).
 SELECT complaint_id, status, department_id FROM complaints WHERE complaint_id = 1;
 
 -- Step 2: Simulate escalating the complaint to the Billing department.
@@ -139,8 +117,6 @@ SELECT from_department_id, to_department_id, escalation_reason FROM escalations 
 
 
 -- Test Case 4: Verify DELETE and check for "Orphaned Records"
--- Goal: Ensure related data is handled correctly when a main record is deleted.
--- Step 1: Verify complaint #3 and its escalation record exist.
 SELECT * FROM complaints WHERE complaint_id = 3;
 SELECT * FROM escalations WHERE complaint_id = 3;
 
@@ -155,8 +131,6 @@ SELECT * FROM escalations WHERE complaint_id = 3;
 
 
 -- Test Case 5: Negative Test (Unique Email Constraint)
--- Goal: Ensure the database PREVENTS creating a user with a duplicate email.
--- Step 1: Confirm 'john.doe@example.com' exists.
 SELECT * FROM users WHERE email = 'john.doe@example.com';
 
 -- Step 2: Attempt to create a NEW user with the SAME email. This should FAIL.
@@ -165,7 +139,3 @@ VALUES (user_seq.NEXTVAL, 'Another John', 'john.doe@example.com', 'newpass', '55
 
 -- Step 3: The test PASSES if Step 2 produced a unique constraint error.
 SELECT count(*) FROM users;
-/
-
-
-

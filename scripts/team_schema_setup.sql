@@ -41,8 +41,8 @@ BEGIN EXECUTE IMMEDIATE 'DROP SEQUENCE complaint_seq'; EXCEPTION WHEN OTHERS THE
 -- USERS Table (Corrected typo 'deaprtment' -> 'department')
 CREATE TABLE users (
     user_id         NUMBER PRIMARY KEY,
-    full_name       VARCHAR2(100),
-    email           VARCHAR2(100) UNIQUE,
+    full_name       VARCHAR2(100) NOT NULL,
+    email           VARCHAR2(100) UNIQUE NOT NULL,
     password        VARCHAR2(100),
     phone_number    VARCHAR2(20),
     role            VARCHAR2(20),
